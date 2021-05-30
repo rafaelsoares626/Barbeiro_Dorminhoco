@@ -60,7 +60,7 @@ int sem_post(&semáforo): utilizada para fazer um V/up sobre um semáforo, ou se
 void* barbeiro(void *arg){
     while(TRUE){
         sem_wait(&clientes); //sinaliza que está atendendo um cliente. O barbeiro dorme se o número de clientes for 0
-        sem_wait(&mutex); //acessa a região crítica onde está o cliente
+        sem_wait(&mutex); //acessa a região crítica
         cliente_aguardando = cliente_aguardando - 1; //o número de clientes esperando diminui em razão do atendimento do barbeiro
         sem_post(&barbeiros); //sinaliza o barbeiro para cortar o cabelo       
         sem_post(&mutex); //libera a região crítica para o cliente       
@@ -77,8 +77,8 @@ void* cliente(void *arg){
     if(cliente_aguardando < CADEIRAS){ //só entra no if se houver cadeiras de espera vazias
         chegou_cliente();        
         cliente_aguardando = cliente_aguardando + 1; //aumenta a qtd de clientes aguardando
-        sem_post(&clientes); //sinaliza aos clientes em espera. Acorda o barbeiro se necessário
-        sem_post(&mutex); //libera a região crítica para o 'cliente_aguardando'
+        sem_post(&clientes); //sinaliza vaga de atendimento aos clientes em espera. Acorda o barbeiro se necessário
+        sem_post(&mutex); //libera a região crítica
         sem_wait(&barbeiros); //Sinaliza que o barbeiro ficará ocupado. Vai dormir se o número de barbeiros livres for 0
         atende_cliente(); //o cliente está sendo atendido        
     }else{

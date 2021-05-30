@@ -29,11 +29,11 @@ int main(){
     sem_init(&barbeiros, TRUE, 0);
     sem_init(&mutex, TRUE, 1);
 
-    pthread_t b; //variável struct do tipo thread para o barbeiro
-    pthread_t c; //variável struct do tipo thread para clientes
+    pthread_t barb; //variável struct do tipo thread para o barbeiro
+    pthread_t cli; //variável struct do tipo thread para clientes
 
     //o código considera a existência de apenas um barbeiro (função da biblioteca pthread.h)
-    pthread_create(&b, NULL, (void *) barbeiro, NULL);
+    pthread_create(&barb, NULL, (void *) barbeiro, NULL);
 
     /*
     pthread_create (thread, attr, start_routine, arg)
@@ -45,7 +45,7 @@ int main(){
 
     //criação de clientes
     while(TRUE){
-        pthread_create(&c, NULL, (void *) cliente, NULL);
+        pthread_create(&cli, NULL, (void *) cliente, NULL);
         sleep(2);
         aguardando_atendimento(); //total de clientes que aguardam atendimento
     }
